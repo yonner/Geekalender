@@ -7,6 +7,11 @@ const app = createApp({
   eventRepository: new InMemoryEventRepository(seedEvents),
 });
 
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`API listening on http://localhost:${config.port}`);
+});
+
+// ECS stops tasks with SIGTERM; finish in-flight requests, then exit.
+process.on('SIGTERM', () => {
+  server.close(() => process.exit(0));
 });
