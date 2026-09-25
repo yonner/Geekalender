@@ -1,0 +1,20 @@
+# Runs the production images locally: docker compose up --build
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - '4000:4000'
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      # Compose puts both services on one network where each is reachable by its service name.
+      API_URL: http://api:4000
+    depends_on:
+      - api
