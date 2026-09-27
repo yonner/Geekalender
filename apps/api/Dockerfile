@@ -18,7 +18,11 @@ FROM base AS prod-deps
 RUN npm ci -w @geekalender/api --omit=dev
 
 FROM node:24-alpine AS runtime
-ENV NODE_ENV=production PORT=4000
+# Lambda Web Adapter: translates Lambda invocations into HTTP requests to the server below.
+# Lambda runs it automatically as an extension; outside Lambda (docker, compose) it is never started.
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:1.1.0 /lambda-adapter /opt/extensions/lambda-adapter
+ENV NODE_ENV=production PORT=4000 \
+    AWS_LWA_PORT=4000 AWS_LWA_READINESS_CHECK_PATH=/health
 WORKDIR /app
 COPY --from=prod-deps /repo/node_modules ./node_modules
 # package.json carries "type": "module" so Node loads the ESM bundle.
