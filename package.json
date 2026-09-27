@@ -16,7 +16,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "docker:up": "docker compose up --build",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "deploy": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy.ps1",
+    "deploy:api": "npm run deploy -- -Target api",
+    "deploy:web": "npm run deploy -- -Target web"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

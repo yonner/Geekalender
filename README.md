@@ -26,6 +26,24 @@ is async so a Postgres-backed implementation can replace it without touching rou
 
 Copy `apps/api/.env.example` and `apps/web/.env.example` to `.env` to override defaults.
 
+## Deploying to AWS
+
+Both apps run on AWS Lambda (eu-west-2) as container images from ECR, using the Lambda Web
+Adapter, and are served through public Function URLs. The functions `geekalender-api` and
+`geekalender-web` already exist; the web function's `API_URL` environment variable points at the
+API's Function URL.
+
+Prerequisites: Docker Desktop running, and an AWS session (`aws login --profile geekalender`).
+
+| Command                             | Description                                                 |
+| ----------------------------------- | ----------------------------------------------------------- |
+| `npm run deploy`                    | Build, push and deploy both functions at the current commit |
+| `npm run deploy:api` / `deploy:web` | Deploy one function                                         |
+| `npm run deploy -- -Tag <sha>`      | Redeploy an image already in ECR, e.g. to roll back         |
+
+Commit first: images are tagged with the short commit SHA and the script refuses to run with
+uncommitted changes to tracked files. Logs: `aws logs tail /aws/lambda/geekalender-web --since 10m`.
+
 ## API
 
 - `GET /health`
