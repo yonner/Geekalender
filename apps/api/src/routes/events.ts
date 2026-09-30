@@ -24,6 +24,12 @@ function parseFilter(query: Record<string, unknown>): EventFilter {
     filter.month = month;
   }
 
+  if (query.year !== undefined) {
+    const year = Number(query.year);
+    // validate the year 1900 - 2026
+    filter.year = year;
+  }
+
   return filter;
 }
 

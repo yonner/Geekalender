@@ -73,4 +73,12 @@ export const seedEvents: GeekEvent[] = [
     recursAnnually: true,
     franchise: "The Hitchhiker's Guide to the Galaxy",
   },
+  {
+    id: 'cake-day',
+    title: 'Cake Day',
+    category: 'fandom',
+    date: '2001-07-01',
+    recursAnnually: true,
+    franchise: "The Cake",
+  },
 ];

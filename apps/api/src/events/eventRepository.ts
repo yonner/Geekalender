@@ -4,6 +4,7 @@ export interface EventFilter {
   category?: EventCategory;
   /** 1-12 */
   month?: number;
+  year?: number;
 }
 
 /** Async so a database-backed implementation can replace the in-memory one without changing callers. */
