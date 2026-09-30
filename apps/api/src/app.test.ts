@@ -38,4 +38,12 @@ describe('API', () => {
     const res = await request(app).get('/api/events/does-not-exist');
     assert.equal(res.status, 404);
   });
+
+  it('filters events by year', async () => {
+    const res = await request(app).get('/api/events?year=2001');
+    assert.deepEqual(
+      res.body.data.map((e: { id: string }) => e.id),
+      ['towel-day', 'cake-day'],
+    );
+  });
 });
